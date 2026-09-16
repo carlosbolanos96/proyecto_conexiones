@@ -1,0 +1,83 @@
+# ==========================================
+# Python
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+ENV/
+
+# ==========================================
+# Django
+# ==========================================
+# Base de datos local - NUNCA versionar.
+# Cada dev genera la suya con: python manage.py migrate
+*.sqlite3
+*.sqlite3-journal
+db.sqlite3
+
+# Archivos de traduccion compilados
+*.mo
+
+# Colecciones estaticas compiladas
+staticfiles/
+
+# Claves y archivos locales de Django
+local_settings.py
+media/
+
+# ==========================================
+# Secretos y variables de entorno
+# ==========================================
+.env
+.env.*
+!.env.example
+
+# ==========================================
+# Testing y coverage
+# ==========================================
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.cache
+nosetests.xml
+coverage.xml
+
+# ==========================================
+# Editores
+# ==========================================
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+
+# ==========================================
+# Sistema operativo
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==========================================
+# Logs y temporales
+# ==========================================
+*.log
+*.tmp
+*.bak
+tmp/
+temp/

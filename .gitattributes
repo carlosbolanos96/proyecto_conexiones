@@ -1,0 +1,25 @@
+# Normaliza los finales de linea en el repo a LF, y convierte al checkout
+# segun el sistema de cada dev. Sin esto, un dev en Windows y otro en Linux
+# generan diffs de archivo completo por un solo \r.
+
+* text=auto eol=lf
+
+# Archivos que Python y los editores deben tratar como codigo
+*.py text diff=python
+*.html text diff=html
+*.css text diff=css
+*.js text diff=javascript
+*.json text
+*.md text diff=markdown
+*.txt text
+*.yml text
+*.yaml text
+
+# Archivos que NUNCA deben convertirse ni compararse como texto
+*.sqlite3 binary
+*.pyc binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary

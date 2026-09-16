@@ -1,0 +1,8 @@
+project: poryecto conexiones
+stack:
+  framework: django
+  python: "3.14"
+  app: core
+conventions:
+  language: es-ar
+  timezone: America/Argentina/Buenos_Aires
