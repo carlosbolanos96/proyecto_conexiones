@@ -11,16 +11,23 @@ Django 6.1 · Python 3.14 · SQLite
 Clonás el repo y con cuatro comandos tenés todo andando:
 
 ```bash
+# 1. Clonar (la carpeta se llama proyecto_conexiones, como el repo)
 git clone https://github.com/carlosbolanos96/proyecto_conexiones.git
-cd conexiones
+cd proyecto_conexiones
 
+# 2. Entorno virtual
 python -m venv .venv
 .venv/Scripts/pip install -r requirements.txt    # Linux/Mac: .venv/bin/pip
 
+# 3. Base de datos + datos de ejemplo
 .venv/Scripts/python manage.py migrate
 .venv/Scripts/python manage.py seed_demo --create-admin
+
+# 4. Levantar el server
 .venv/Scripts/python manage.py runserver
 ```
+
+> Si activás el venv con `source .venv/Scripts/activate` (o `.\.venv\Scripts\activate` en PowerShell), después podés escribir `python manage.py ...` sin el path. Los ejemplos de abajo usan el path completo para que funcione sin activar nada.
 
 `seed_demo` crea la base de ejemplo completa: 12 usuarios de prueba, restaurantes, productores, bodegas, productos, órdenes, pagos y deliveries. **No tenés que crear datos a mano nunca.**
 
@@ -71,6 +78,48 @@ Reglas:
 - **PR siempre contra `master`.** Nadie pushea directo a `master`.
 - **`git add .` es seguro**: el `.gitignore` filtra bytecode, base de datos, `.venv` y `.env`.
 - Commits convencionales: `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`.
+
+### Tu primer día, comando por comando
+
+```bash
+git clone https://github.com/carlosbolanos96/proyecto_conexiones.git
+cd proyecto_conexiones
+git checkout -b mi-primera-feature     # nunca trabajes directo sobre master
+# ... hacé tus cambios ...
+git add .
+git commit -m "feat: lo que hice"
+git push -u origin mi-primera-feature # la primera vez; después alcanza con git push
+```
+
+Después abrís el PR contra `master` en GitHub, alguien lo revisa, lo mergeás y borrás la branch.
+
+### Cuando master ya avanzó
+
+Si trabajaste un rato ymaster se movió, actualizá **antes** de pushear:
+
+```bash
+git fetch origin
+git rebase origin/master
+git push --force-with-lease     # NUNCA --force a secas
+```
+
+`--force-with-lease` es importante: rechaza el push si alguien pusheó a tu branch mientras tanto. `--force` a secas pisa trabajo ajeno sin avisarte.
+
+Si el rebase te pide resolver un conflicto, abrís el archivo, borrás los marcadores `<<<<<<<`, `=======`, `>>>>>>>`, dejás lo correcto, y:
+
+```bash
+git add archivo
+git rebase --continue
+```
+
+### Antes de abrir el PR
+
+```bash
+python manage.py test                        # los 13 tests tienen que pasar
+python manage.py makemigrations --check --dry-run   # si tocaste models.py
+```
+
+Si tocaste un modelo y el segundo comando dice "changes detected", corré `makemigrations` y commiteá el archivo generado **junto con** el cambio de modelo. Si no, los demás van a tener un schema distinto al tuyo.
 
 ### La base de datos NO se versiona
 
