@@ -103,6 +103,32 @@ Si commiteás la base, cada merge es un conflicto binario que Git no puede resol
 
 ---
 
+## Tests
+
+```bash
+python manage.py test               # 13 tests, ~20s
+python manage.py test orders        # una sola app
+python manage.py test -v 2          # ver nombres de cada test
+```
+
+Cubren las 9 reglas de negocio que viven en los `clean()` de los modelos.
+
+### La trampa de `full_clean()`
+
+Las reglas de negocio están en `Model.clean()`. **Django NO las ejecuta solo.**
+
+```python
+# Esto GUARDA un registro inválido, sin error:
+courier = Courier.objects.create(profile=perfil_de_un_consumidor)
+
+# Esto lo RECHAZA:
+courier.full_clean()
+```
+
+`Model.objects.create()` y `Model.save()` no llaman `full_clean()`. Si creás datos desde una vista, un formulario o un comando, **llamá `full_clean()` vos** antes de guardar. Hay un test que documenta exactamente esto: `accounts.tests.ProfileValidationTests.test_objects_create_does_not_run_model_clean`.
+
+`seed_demo` sí lo hace bien: su helper `_save()` llama `full_clean()` antes de cada `save()`.
+
 ## Comandos útiles
 
 ```bash
